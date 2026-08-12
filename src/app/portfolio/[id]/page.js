@@ -1,10 +1,11 @@
+import { createClient } from "@/utils/supabase/client";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Image from "next/image";
 
 export async function generateStaticParams() {
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
 
   const { data, error } = await supabase.from("portfolio").select("id");
