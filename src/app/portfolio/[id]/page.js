@@ -1,12 +1,18 @@
-import { createClient } from "@/utils/supabase/client";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import Image from "next/image";
 
 export async function generateStaticParams() {
-  const supabase = createClient();
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+  );
+
   const { data, error } = await supabase.from("portfolio").select("id");
+
   if (error) {
     throw new Error(`generateStaticParams 실패: ${error.message}`);
   }
+
   return data.map(row => ({
     id: String(row.id),
   }));
